@@ -37,21 +37,8 @@ router.get('/callback', async (req, res) => {
     });
     const tokenData = await tokenResponse.json();
     if (tokenData.access_token) {
-      console.log('===========================================');
-      console.log('SHOPIFY ACCESS TOKEN: ' + tokenData.access_token);
-      console.log('===========================================');
-      res.send(`
-        <html>
-        <body style="font-family:sans-serif;max-width:600px;margin:60px auto;text-align:center;background:#1a1714;color:#e8dcc8;">
-          <h1 style="color:#c4945a;">Connected!</h1>
-          <p>Your Shopify access token:</p>
-          <p style="background:#2a2520;padding:16px;border-radius:8px;font-family:monospace;word-break:break-all;font-size:14px;">
-            ${tokenData.access_token}
-          </p>
-          <p style="color:#c4945a;font-weight:bold;">Copy this token and add it as SHOPIFY_ACCESS_TOKEN in Railway.</p>
-        </body>
-        </html>
-      `);
+      console.log('=== SHOPIFY ACCESS TOKEN: ' + tokenData.access_token + ' ===');
+      res.send('<html><body style="font-family:sans-serif;max-width:600px;margin:60px auto;text-align:center;background:#1a1714;color:#e8dcc8;"><h1 style="color:#c4945a;">Connected!</h1><p>Your access token:</p><p style="background:#2a2520;padding:16px;border-radius:8px;font-family:monospace;word-break:break-all;font-size:14px;">' + tokenData.access_token + '</p><p style="color:#c4945a;font-weight:bold;">Copy this and add it as SHOPIFY_ACCESS_TOKEN in Railway.</p></body></html>');
     } else {
       res.status(500).send('Failed: ' + JSON.stringify(tokenData));
     }
@@ -61,21 +48,3 @@ router.get('/callback', async (req, res) => {
 });
 
 module.exports = router;
-```
-
-**Steps:**
-
-**1.** Go to GitHub → your repo → **`routes`** folder → **"Add file" → "Create new file"**
-
-**2.** Name it **`auth.js`**, paste the code above, click **"Commit changes"**
-
-**3.** Then go back and edit **`server.js`** — add these two lines:
-
-Near the top with the other requires, add:
-```
-const authRoutes = require('./routes/auth');
-```
-
-Before the line `// Public:`, add:
-```
-app.use('/api/auth', authRoutes);
