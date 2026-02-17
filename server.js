@@ -64,10 +64,9 @@ app.get('/health', (req, res) => {
 // ===== Start =====
 
 app.listen(PORT, () => {
-  console.log(`Okura Referral API running on port ${PORT}`);
-  console.log(`  Public API:  /api/referral`);
-  console.log(`  Webhooks:    /api/webhooks`);
-  console.log(`  Admin API:   /api/admin`);
-});
+  const initDatabase = require('./utils/db-init');
 
-module.exports = app;
+app.listen(PORT, async () => {
+  console.log(`Okura Referral API running on port ${PORT}`);
+  await initDatabase();
+});
