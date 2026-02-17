@@ -8,6 +8,7 @@ const rateLimit = require('express-rate-limit');
 const referralRoutes = require('./routes/referral');
 const webhookRoutes = require('./routes/webhooks');
 const adminRoutes = require('./routes/admin');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -46,6 +47,9 @@ const publicLimiter = rateLimit({
 });
 
 // ===== Routes =====
+
+// Auth: Shopify OAuth flow (one-time setup)
+app.use('/api/auth', authRoutes);
 
 // Public: storefront referral actions (enroll, track click, get stats)
 app.use('/api/referral', publicLimiter, referralRoutes);
